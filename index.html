@@ -123,14 +123,18 @@ footer p{line-height:1.6;max-width:400px;margin:0 auto 8px}
 const data=PORTFOLIO_DATA;let cur=0,cat='all',sub='all',timer;
 
 (function renderCarousel(){
+  const allImgs=[];
+  for(const[,subs]of Object.entries(data.categories))for(const[,fs]of Object.entries(subs))fs.forEach(f=>allImgs.push(f));
+  const shuffled=allImgs.sort(()=>Math.random()-.5).slice(0,8);
   const s=document.getElementById('hero-slides'),d=document.getElementById('hero-dots');
-  s.innerHTML=data.carousel.map((x,i)=>`<div class="hero-slide${i?'':' active'}"><img src="${x.path}" alt="${x.name}" loading="${i<2?'eager':'lazy'}"></div>`).join('');
-  d.innerHTML=data.carousel.map((_,i)=>`<span class="${i?'':' active'}" onclick="go(${i})"></span>`).join('');
+  s.innerHTML=shuffled.map((x,i)=>`<div class="hero-slide${i?'':' active'}"><img src="${x.path}" alt="${x.name}" loading="${i<2?'eager':'lazy'}"></div>`).join('');
+  d.innerHTML=shuffled.map((_,i)=>`<span class="${i?'':' active'}" onclick="go(${i})"></span>`).join('');
   timer=setInterval(nextSlide,5000);
+  window._carouselSlides=shuffled;
 })();
 function go(i){document.querySelectorAll('.hero-slide').forEach((s,j)=>s.classList.toggle('active',j===i));document.querySelectorAll('.hero-dots span').forEach((s,j)=>s.classList.toggle('active',j===i));cur=i;clearInterval(timer);timer=setInterval(nextSlide,5000)}
-function nextSlide(){go((cur+1)%data.carousel.length)}
-function prevSlide(){go((cur-1+data.carousel.length)%data.carousel.length)}
+function nextSlide(){const n=window._carouselSlides?.length||1;go((cur+1)%n)}
+function prevSlide(){const n=window._carouselSlides?.length||1;go((cur-1+n)%n)}
 
 window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('transparent',window.scrollY<100));
 
