@@ -2,233 +2,213 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>姚锋 · 产品摄影</title>
 <style>
-:root{--black:#000;--gray:#f5f5f7;--text:#1d1d1f;--text2:rgba(0,0,0,0.5);--blue:#0071e3;--sidebar-w:240px;--header-h:48px}
+:root{--bg:#0a0a0a;--text:#fff;--text2:rgba(255,255,255,.55);--text3:rgba(255,255,255,.3);--border:rgba(255,255,255,.08)}
 
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background:var(--gray);color:var(--text);-webkit-font-smoothing:antialiased;display:flex;min-height:100vh}
+body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
 
-/* Sidebar */
-.sidebar{position:fixed;top:0;left:0;bottom:0;width:var(--sidebar-w);background:var(--black);color:#fff;z-index:100;display:flex;flex-direction:column;overflow-y:auto}
-.sidebar-header{padding:16px 20px 12px;font-size:15px;font-weight:600;border-bottom:1px solid rgba(255,255,255,0.08)}
-.sidebar-nav{flex:1;padding:8px 0}
-.nav-item{cursor:pointer;user-select:none}
-.nav-parent{display:flex;align-items:center;padding:9px 20px;font-size:13px;color:rgba(255,255,255,0.75);transition:all .15s;gap:8px}
-.nav-parent:hover,.nav-parent.active{color:#fff;background:rgba(255,255,255,0.06)}
-.nav-parent .arrow{font-size:10px;transition:transform .2s;opacity:0.4}
-.nav-parent.open .arrow{transform:rotate(90deg)}
-.nav-children{display:none}
-.nav-children.open{display:block}
-.nav-child{display:block;padding:6px 20px 6px 42px;font-size:12px;color:rgba(255,255,255,0.5);cursor:pointer;transition:all .15s}
-.nav-child:hover,.nav-child.active{color:#fff;background:rgba(255,255,255,0.04)}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 32px;background:var(--bg);border-bottom:1px solid var(--border)}
+nav .logo{font-size:15px;font-weight:600;letter-spacing:-.2px}
+nav .links{display:flex;gap:28px}
+nav .links a{color:var(--text2);text-decoration:none;font-size:13px;letter-spacing:-.1px;transition:color .2s}
+nav .links a:hover,nav .links a.active{color:var(--text)}
+.hamburger{display:none;background:none;border:none;color:var(--text);font-size:20px;cursor:pointer}
 
-.sidebar-footer{padding:12px 20px;border-top:1px solid rgba(255,255,255,0.08);font-size:11px;color:rgba(255,255,255,0.3)}
+.overlay-menu{display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.95);flex-direction:column;justify-content:center;align-items:center;gap:28px}
+.overlay-menu.active{display:flex}
+.overlay-menu a{color:var(--text2);text-decoration:none;font-size:20px;letter-spacing:-.2px}
+.overlay-menu .close{position:absolute;top:20px;right:28px;background:none;border:none;color:var(--text);font-size:28px;cursor:pointer}
 
-/* Main */
-.main{margin-left:var(--sidebar-w);flex:1;min-height:100vh}
+main{padding-top:56px}
 
 /* Hero */
-.hero{position:relative;width:100%;height:60vh;min-height:360px;overflow:hidden}
-.hero-slide{position:absolute;inset:0;opacity:0;transition:opacity 1.2s}
-.hero-slide.active{opacity:1}
-.hero-slide img{width:100%;height:100%;object-fit:cover}
-.hero-slide::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.25),rgba(0,0,0,.55))}
-.hero-text{position:absolute;bottom:12%;left:50%;transform:translateX(-50%);text-align:center;z-index:2;color:#fff}
-.hero-text h1{font-size:clamp(26px,4vw,48px);font-weight:600;line-height:1.08;letter-spacing:-.3px}
-.hero-text p{font-size:15px;margin-top:6px;opacity:.8}
-.hero-dots{position:absolute;bottom:5%;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:2}
-.hero-dots span{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.4);cursor:pointer}
-.hero-dots span.active{background:#fff}
+.hero{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--bg)}
+.hero-item{aspect-ratio:4/3;overflow:hidden;cursor:pointer;position:relative}
+.hero-item img{width:100%;height:100%;object-fit:cover;transition:transform .4s,opacity .4s}
+.hero-item:hover img{transform:scale(1.04)}
+.hero-item .hero-overlay{position:absolute;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .3s}
+.hero-item:hover .hero-overlay{opacity:1}
+.hero-item .hero-overlay span{color:#fff;font-size:14px;font-weight:500;letter-spacing:1px;text-transform:uppercase}
 
-/* Content */
-.content{padding:40px 32px;max-width:1400px}
-.content h2{font-size:22px;font-weight:600;margin-bottom:20px;color:var(--text)}
-.breadcrumb{font-size:12px;color:var(--text2);margin-bottom:16px}
-.breadcrumb span{cursor:pointer;color:var(--blue)}
-.breadcrumb span:hover{text-decoration:underline}
+/* Sections */
+.section{padding:64px 32px;max-width:1400px;margin:0 auto}
+.section-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text3);margin-bottom:8px}
+.section-title{font-size:22px;font-weight:500;margin-bottom:32px;letter-spacing:-.3px;line-height:1.3}
+.section-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.section-card{cursor:pointer;position:relative}
+.section-card .card-img{aspect-ratio:3/4;overflow:hidden;background:#1a1a1a}
+.section-card .card-img img{width:100%;height:100%;object-fit:cover;transition:transform .4s,opacity .4s}
+.section-card:hover .card-img img{transform:scale(1.03);opacity:.85}
+.section-card .card-title{margin-top:10px;font-size:13px;font-weight:400;letter-spacing:-.1px;color:var(--text)}
+.section-card .card-count{font-size:11px;color:var(--text3);margin-top:2px}
 
-/* Card grids */
-.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
-.cat-card{position:relative;border-radius:10px;overflow:hidden;cursor:pointer;aspect-ratio:4/3;background:#ddd;transition:transform .3s,box-shadow .3s}
-.cat-card:hover{transform:scale(1.02);box-shadow:0 6px 30px rgba(0,0,0,.18)}
-.cat-card img{width:100%;height:100%;object-fit:cover}
-.cat-card .overlay{position:absolute;inset:0;background:linear-gradient(transparent 50%,rgba(0,0,0,.7));display:flex;align-items:flex-end;padding:16px}
-.cat-card .overlay span{color:#fff;font-size:17px;font-weight:500}
-.cat-card .count{font-size:12px;opacity:.7;margin-left:8px}
+/* Breadcrumb */
+.breadcrumb{padding:24px 32px 0;font-size:12px;color:var(--text3)}
+.breadcrumb span{cursor:pointer;color:var(--text2);transition:color .2s}
+.breadcrumb span:hover{color:var(--text)}
 
-/* Image gallery */
-.gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
-.img-card{border-radius:8px;overflow:hidden;cursor:pointer;background:#fff;transition:transform .3s,box-shadow .3s}
-.img-card:hover{transform:scale(1.02);box-shadow:0 4px 20px rgba(0,0,0,.14)}
-.img-card img{width:100%;height:180px;object-fit:cover;display:block}
-.img-card .label{padding:8px 12px;font-size:11px;color:var(--text2)}
-
-/* Video grid */
-.video-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:1000px}
-.video-card{position:relative;cursor:pointer;border-radius:10px;overflow:hidden;aspect-ratio:16/9;background:#000;transition:transform .3s}
-.video-card:hover{transform:scale(1.02)}
+/* Gallery / Video grid */
+.gallery-wrap{padding:16px 32px 64px;max-width:1400px;margin:0 auto}
+.gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:8px}
+.gallery-card{cursor:pointer;overflow:hidden;background:#1a1a1a;aspect-ratio:4/3;position:relative}
+.gallery-card img{width:100%;height:100%;object-fit:cover;transition:transform .3s,opacity .3s}
+.gallery-card:hover img{transform:scale(1.03);opacity:.8}
+.video-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.video-card{cursor:pointer;position:relative;aspect-ratio:16/9;overflow:hidden;background:#1a1a1a}
 .video-card video{width:100%;height:100%;object-fit:cover}
-.video-card .play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:52px;height:52px;border-radius:50%;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;font-size:22px;color:#fff;pointer-events:none}
-.video-card .vlabel{position:absolute;bottom:0;left:0;right:0;padding:10px 14px;background:linear-gradient(transparent,rgba(0,0,0,.7));color:#fff;font-size:13px}
+.video-card:hover video{opacity:.8}
+.video-card .vplay{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:56px;height:56px;border-radius:50%;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;font-size:22px;pointer-events:none}
+.video-card .vlabel{margin-top:8px;font-size:13px}
 
 /* Lightbox */
-.lightbox{display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.96);justify-content:center;align-items:center;cursor:pointer}
+.lightbox{display:none;position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.97);justify-content:center;align-items:center;cursor:pointer}
 .lightbox.active{display:flex}
-.lightbox img{max-width:92vw;max-height:92vh;object-fit:contain}
-.lightbox video{max-width:92vw;max-height:92vh;outline:none}
-.lightbox .close{position:absolute;top:16px;right:24px;color:#fff;font-size:34px;cursor:pointer;z-index:2001}
+.lightbox img,.lightbox video{max-width:92vw;max-height:92vh;object-fit:contain}
+.lightbox .lbclose{position:absolute;top:20px;right:28px;color:#fff;font-size:32px;cursor:pointer;z-index:301}
 
-.empty{text-align:center;padding:80px 20px;color:var(--text2);font-size:15px}
+/* Footer */
+footer{padding:48px 32px;border-top:1px solid var(--border);display:flex;justify-content:space-between;flex-wrap:wrap;gap:20px;max-width:1400px;margin:0 auto}
+footer .col{min-width:140px}
+footer .col strong{display:block;font-size:12px;margin-bottom:8px;color:var(--text)}
+footer .col a{display:block;font-size:11px;color:var(--text3);text-decoration:none;margin-bottom:4px;transition:color .2s}
+footer .col a:hover{color:var(--text2)}
+footer .copyright{margin-top:32px;font-size:11px;color:var(--text3);border-top:1px solid var(--border);padding-top:20px;max-width:1400px;margin-left:auto;margin-right:auto}
 
-/* Mobile */
 @media(max-width:768px){
-  .sidebar{width:100%;bottom:auto;height:auto;position:relative}
-  .sidebar .nav-children{display:none!important}
-  .main{margin-left:0}
-  .hero{height:40vh;min-height:240px}
-  .content{padding:20px 16px}
-  .card-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+  nav .links{display:none}
+  .hamburger{display:block}
+  .hero{grid-template-columns:1fr}
+  .section{padding:40px 16px}
+  .section-grid{grid-template-columns:repeat(2,1fr);gap:8px}
+  .gallery-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
   .video-grid{grid-template-columns:1fr}
+  footer{flex-direction:column}
 }
 </style>
 </head>
 <body>
 
-<aside class="sidebar">
-  <div class="sidebar-header">姚锋</div>
-  <nav class="sidebar-nav" id="sidenav"></nav>
-  <div class="sidebar-footer">© 2026 Product Photography</div>
-</aside>
+<nav>
+  <span class="logo">姚锋</span>
+  <div class="links" id="nav-links">
+    <a href="#" class="active" onclick="goHome();return!1">作品</a>
+    <a href="#" onclick="showCat('白底图');return!1">白底图</a>
+    <a href="#" onclick="showCat('场景图');return!1">场景图</a>
+    <a href="#" onclick="showCat('视频');return!1">视频</a>
+    <a href="#footer">关于</a>
+  </div>
+  <button class="hamburger" onclick="toggleMenu()">☰</button>
+</nav>
 
-<main class="main">
-  <section class="hero" id="hero">
-    <div id="hero-slides"></div>
-    <div class="hero-text"><h1>姚锋</h1><p>产品摄影 · 白底静物 · 场景视觉 · 视频作品</p></div>
-    <div class="hero-dots" id="hero-dots"></div>
-  </section>
-  <div class="content" id="content"></div>
-</main>
+<div class="overlay-menu" id="overlay">
+  <button class="close" onclick="toggleMenu()">×</button>
+  <a href="#" onclick="goHome();toggleMenu();return!1">作品</a>
+  <a href="#" onclick="showCat('白底图');toggleMenu();return!1">白底图</a>
+  <a href="#" onclick="showCat('场景图');toggleMenu();return!1">场景图</a>
+  <a href="#" onclick="showCat('视频');toggleMenu();return!1">视频</a>
+  <a href="#footer" onclick="toggleMenu()">关于</a>
+</div>
 
-<div class="lightbox" id="lightbox" onclick="closeLB()"><span class="close">&times;</span></div>
+<main id="main"></main>
+
+<div class="lightbox" id="lb" onclick="closeLB()"><span class="lbclose">×</span></div>
+
+<footer id="footer">
+  <div class="col"><strong>姚锋</strong><a>产品摄影师</a></div>
+  <div class="col"><strong>联系</strong><a>fengyao1021@gmail.com</a><a>13528423803</a></div>
+</footer>
 
 <script src="data.js"></script>
 <script>
 const D=PORTFOLIO_DATA;
-let curView='home',curCat='',curSub='';
-let curSlide=0,timer,carouselSlides=[];
+let view='home',cat='',sub='';
 
-// Gather all images for carousel
-(function(){
-  for(const[,subs]of Object.entries(D.categories))for(const[,fs]of Object.entries(subs))fs.forEach(f=>carouselSlides.push(f));
-  carouselSlides=carouselSlides.sort(()=>Math.random()-.5).slice(0,8);
-  const s=document.getElementById('hero-slides'),d=document.getElementById('hero-dots');
-  s.innerHTML=carouselSlides.map((x,i)=>`<div class="hero-slide${i?'':' active'}"><img src="${x.path}" loading="${i<2?'eager':'lazy'}"></div>`).join('');
-  d.innerHTML=carouselSlides.map((_,i)=>`<span class="${i?'':' active'}" onclick="goSlide(${i})"></span>`).join('');
-  timer=setInterval(()=>goSlide((curSlide+1)%carouselSlides.length),5000);
-})();
-function goSlide(i){document.querySelectorAll('.hero-slide').forEach((s,j)=>s.classList.toggle('active',j===i));document.querySelectorAll('.hero-dots span').forEach((s,j)=>s.classList.toggle('active',j===i));curSlide=i;clearInterval(timer);timer=setInterval(()=>goSlide((curSlide+1)%carouselSlides.length),5000)}
+function toggleMenu(){document.getElementById('overlay').classList.toggle('active')}
 
-// Build sidebar
-function buildSidebar(){
-  const nav=document.getElementById('sidenav');
-  let h='<div class="nav-item"><div class="nav-parent'+(curView==='home'?' active':'')+'" onclick="goHome()">🏠 全部作品</div></div>';
-  for(const[cat,subs]of Object.entries(D.categories)){
-    const isOpen=curView==='cat'&&curCat===cat;
-    h+=`<div class="nav-item"><div class="nav-parent${isOpen?' open active':''}" onclick="toggleCat('${cat}')"><span class="arrow">▶</span> ${cat} <span style="font-size:10px;opacity:.4;margin-left:auto">${Object.keys(subs).length}</span></div><div class="nav-children${isOpen?' open':''}">`;
-    for(const sub of Object.keys(subs)){
-      h+=`<div class="nav-child${(curView==='sub'&&curSub===sub)?' active':''}" onclick="goSub('${cat}','${sub}')">${sub}</div>`;
-    }
-    h+='</div></div>';
-  }
-  // Videos
-  if(D.videos){
-    const isOpen=curView==='cat'&&curCat==='视频';
-    h+=`<div class="nav-item"><div class="nav-parent${isOpen?' open active':''}" onclick="toggleCat('视频')"><span class="arrow">▶</span> 视频 <span style="font-size:10px;opacity:.4;margin-left:auto">${Object.keys(D.videos).length}</span></div><div class="nav-children${isOpen?' open':''}">`;
-    for(const sub of Object.keys(D.videos)){
-      h+=`<div class="nav-child${(curView==='sub'&&curSub===sub)?' active':''}" onclick="goSub('视频',sub)">${sub}</div>`;
-    }
-    h+='</div></div>';
-  }
-  nav.innerHTML=h;
+function goHome(){view='home';cat=sub='';updateNav();render()}
+function showCat(c){view='cat';cat=c;sub='';updateNav();render()}
+function showSub(c,s){view='sub';cat=c;sub=s;updateNav();render()}
+function backToCat(){view='cat';sub='';updateNav();render()}
+
+function updateNav(){
+  document.querySelectorAll('#nav-links a').forEach((a,i)=>{
+    a.classList.remove('active');
+    if(view==='home'&&i===0)a.classList.add('active');
+    if(view==='cat'&&((cat==='白底图'&&i===1)||(cat==='场景图'&&i===2)||(cat==='视频'&&i===3)))a.classList.add('active');
+  });
 }
 
-function toggleCat(cat){
-  if(curView==='cat'&&curCat===cat){goHome();return}
-  curView='cat';curCat=cat;curSub='';
-  buildSidebar();renderContent();
-}
+// Helper: get random images for cards
+function randomFrom(arr,n){const s=[...arr].sort(()=>Math.random()-.5);return s.slice(0,n)}
 
-function goSub(cat,sub){
-  curView='sub';curCat=cat;curSub=sub;
-  buildSidebar();renderContent();
-}
-
-function goHome(){curView='home';curCat=curSub='';buildSidebar();renderContent()}
-
-// Render content
-function renderContent(){
-  const el=document.getElementById('content');
+function render(){
+  const m=document.getElementById('main');
   
-  if(curView==='home'){
-    let cards='';
-    const catNames=['白底图','场景图','视频'];
-    for(const cat of catNames){
-      let img;
-      if(cat==='视频'&&D.videos){
-        const subs=Object.values(D.videos).flat();
-        img=subs[Math.floor(Math.random()*subs.length)];
-      }else if(D.categories[cat]){
-        const all=Object.values(D.categories[cat]).flat();
-        img=all[Math.floor(Math.random()*all.length)];
-      }
-      if(!img)continue;
-      const count=cat==='视频'?Object.values(D.videos).reduce((a,b)=>a+b.length,0):Object.values(D.categories[cat]||{}).reduce((a,b)=>a+b.length,0);
-      cards+=`<div class="cat-card" onclick="toggleCat('${cat}')"><img src="${img.path}" loading="lazy"><div class="overlay"><span>${cat}<small class="count">${count} 件</small></span></div></div>`;
+  if(view==='home'){
+    // Hero grid: 6 random images
+    const all=[];for(const[,subs]of Object.entries(D.categories))for(const[,fs]of Object.entries(subs))fs.forEach(f=>all.push(f));
+    const heroImgs=randomFrom(all,6);
+    let hero=`<section class="hero">${heroImgs.map(x=>`<div class="hero-item" onclick="openLB('${x.path}')"><img src="${x.path}" loading="lazy"><div class="hero-overlay"><span>浏览</span></div></div>`).join('')}</section>`;
+    
+    // Category sections
+    let sections='';
+    const cats=[['白底图','产品静物 · 白底拍摄'],['场景图','环境场景 · 生活方式'],['视频','动态影像 · 视频作品']];
+    for(const[cn,desc]of cats){
+      const source=cn==='视频'?D.videos:D.categories[cn];
+      if(!source)continue;
+      const entries=Object.entries(source);
+      const cards=randomFrom(entries,4);
+      sections+=`<section class="section"><div class="section-label">${cn}</div><div class="section-title">${desc}</div><div class="section-grid">`;
+      cards.forEach(([sname,files])=>{
+        const img=files[Math.floor(Math.random()*files.length)];
+        sections+=`<div class="section-card" onclick="showSub('${cn}','${sname}')"><div class="card-img"><img src="${img.path}" loading="lazy"></div><div class="card-title">${sname}</div><div class="card-count">${files.length} 张</div></div>`;
+      });
+      sections+=`</div></section>`;
     }
-    el.innerHTML=`<div class="card-grid">${cards}</div>`;
+    m.innerHTML=hero+sections;
     return;
   }
   
-  if(curView==='cat'){
-    const isVideo=curCat==='视频';
-    const source=isVideo?D.videos:D.categories[curCat];
-    if(!source){el.innerHTML='<div class="empty">暂无内容</div>';return}
-    
-    let cards='';
-    for(const[sub,files]of Object.entries(source)){
+  if(view==='cat'){
+    const source=cat==='视频'?D.videos:D.categories[cat];
+    if(!source){m.innerHTML='';return}
+    const entries=Object.entries(source);
+    let html=`<section class="section"><div class="section-label">${cat}</div><div class="section-title">共 ${entries.length} 个分类</div><div class="section-grid">`;
+    entries.forEach(([sname,files])=>{
       const img=files[Math.floor(Math.random()*files.length)];
-      cards+=`<div class="cat-card" onclick="goSub('${curCat}','${sub}')"><img src="${img.path}" loading="lazy"><div class="overlay"><span>${sub}<small class="count">${files.length}</small></span></div></div>`;
-    }
-    el.innerHTML=`<h2>${curCat}</h2><div class="card-grid">${cards}</div>`;
+      const count=cat==='视频'?files.length+' 个':files.length+' 张';
+      html+=`<div class="section-card" onclick="showSub('${cat}','${sname}')"><div class="card-img"><img src="${img.path}" loading="lazy"></div><div class="card-title">${sname}</div><div class="card-count">${count}</div></div>`;
+    });
+    html+=`</div></section>`;
+    m.innerHTML=html;
     return;
   }
   
-  if(curView==='sub'){
-    const isVideo=curCat==='视频';
-    
-    if(isVideo){
-      const vids=(D.videos||{})[curSub]||[];
-      if(!vids.length){el.innerHTML='<div class="empty">暂无视频</div>';return}
-      el.innerHTML=`<div class="breadcrumb"><span onclick="goHome()">全部</span> › <span onclick="toggleCat('视频')">视频</span> › ${curSub}</div><div class="video-grid">${vids.map(v=>`<div class="video-card" onclick="openVideo('${v.path}')"><video src="${v.path}" preload="metadata" muted playsinline></video><div class="play">▶</div><div class="vlabel">${v.name.slice(0,40)}</div></div>`).join('')}</div>`;
-      return;
+  if(view==='sub'){
+    if(cat==='视频'){
+      const vids=(D.videos||{})[sub]||[];
+      if(!vids.length){m.innerHTML='';return}
+      let html=`<div class="breadcrumb"><span onclick="goHome()">作品</span> / <span onclick="showCat('视频')">视频</span> / ${sub}</div><div class="gallery-wrap"><div class="video-grid">`;
+      vids.forEach(v=>{html+=`<div><div class="video-card" onclick="openVideo('${v.path}')"><video src="${v.path}" preload="metadata" muted playsinline></video><div class="vplay">▶</div></div><div class="vlabel">${v.name.slice(0,40)}</div></div>`;});
+      html+=`</div></div>`;m.innerHTML=html;return;
     }
-    
-    const imgs=((D.categories[curCat]||{})[curSub])||[];
-    if(!imgs.length){el.innerHTML='<div class="empty">暂无图片</div>';return}
-    el.innerHTML=`<div class="breadcrumb"><span onclick="goHome()">全部</span> › <span onclick="toggleCat('${curCat}')">${curCat}</span> › ${curSub}</div><div class="gallery-grid">${imgs.map(x=>`<div class="img-card" onclick="openLB('${x.path}')"><img src="${x.path}" loading="lazy"><div class="label">${x.name.slice(0,35)}</div></div>`).join('')}</div>`;
+    const imgs=((D.categories[cat]||{})[sub])||[];
+    if(!imgs.length){m.innerHTML='';return}
+    let html=`<div class="breadcrumb"><span onclick="goHome()">作品</span> / <span onclick="showCat('${cat}')">${cat}</span> / ${sub} (${imgs.length} 张)</div><div class="gallery-wrap"><div class="gallery-grid">`;
+    imgs.forEach(x=>{html+=`<div class="gallery-card" onclick="openLB('${x.path}')"><img src="${x.path}" loading="lazy"></div>`;});
+    html+=`</div></div>`;m.innerHTML=html;
   }
 }
 
-// Lightbox
-function openLB(p){const lb=document.getElementById('lightbox');lb.innerHTML='<span class="close">&times;</span><img src="'+p+'">';lb.classList.add('active')}
-function openVideo(p){const lb=document.getElementById('lightbox');lb.innerHTML='<span class="close">&times;</span><video src="'+p+'" controls autoplay style="max-width:92vw;max-height:92vh"></video>';lb.classList.add('active')}
-function closeLB(){document.getElementById('lightbox').classList.remove('active')}
+function openLB(p){const lb=document.getElementById('lb');lb.innerHTML='<span class="lbclose">×</span><img src="'+p+'">';lb.classList.add('active')}
+function openVideo(p){const lb=document.getElementById('lb');lb.innerHTML='<span class="lbclose">×</span><video src="'+p+'" controls autoplay></video>';lb.classList.add('active')}
+function closeLB(){document.getElementById('lb').classList.remove('active')}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLB()});
 
-// Init
-buildSidebar();renderContent();
+goHome();
 </script>
 </body>
 </html>
