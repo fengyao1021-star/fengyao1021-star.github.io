@@ -3,220 +3,294 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>姚锋 · 产品摄影</title>
+<title>姚锋 · 商业产品摄影</title>
 <style>
-:root{--bg:#000;--text:#fff;--text2:rgba(255,255,255,.5);--text3:rgba(255,255,255,.25)}
+:root{--bg:#0a0a0a;--text:#fff;--t2:rgba(255,255,255,.5);--t3:rgba(255,255,255,.25);--border:rgba(255,255,255,.06)}
 
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
 
-/* Top bar */
-.topbar{position:fixed;top:0;left:0;right:0;z-index:100;height:52px;display:flex;align-items:center;padding:0 28px;background:rgba(0,0,0,.5);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
-.topbar .logo{font-size:14px;font-weight:600;letter-spacing:-.2px}
-.hamburger{background:none;border:none;color:var(--text);font-size:20px;cursor:pointer;padding:4px}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;background:rgba(0,0,0,.6);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+nav .brand{font-size:13px;font-weight:500;letter-spacing:1px;color:var(--text)}
+nav .links{display:flex;gap:22px}
+nav .links a{color:var(--t2);text-decoration:none;font-size:12px;letter-spacing:.5px;transition:color .2s}
+nav .links a:hover{color:var(--text)}
+.hamburger{display:none;background:none;border:none;color:var(--text);font-size:20px;cursor:pointer}
+.mobile-menu{display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.97);flex-direction:column;justify-content:center;align-items:center;gap:24px}
+.mobile-menu.open{display:flex}
+.mobile-menu a{color:var(--t2);text-decoration:none;font-size:18px;letter-spacing:.5px}
+.mobile-menu .close{position:absolute;top:20px;right:28px;background:none;border:none;color:var(--text);font-size:26px;cursor:pointer}
 
-/* Slide menu */
-.menu{position:fixed;top:0;left:0;bottom:0;z-index:200;width:280px;background:rgba(10,10,10,.97);backdrop-filter:blur(30px);transform:translateX(-100%);transition:transform .35s ease;padding:80px 32px 32px;display:flex;flex-direction:column;gap:20px}
-.menu.open{transform:translateX(0)}
-.menu a,.menu .menu-cat{color:var(--text2);text-decoration:none;font-size:16px;letter-spacing:-.2px;cursor:pointer;transition:color .2s}
-.menu a:hover,.menu .menu-cat:hover{color:var(--text)}
-.menu .menu-sub{padding-left:16px;display:none;flex-direction:column;gap:10px;margin-top:8px}
-.menu .menu-cat.open+.menu-sub{display:flex}
-.menu .menu-sub a{font-size:13px;color:var(--text3)}
-.menu .menu-sub a:hover{color:var(--text2)}
-.menu .close{position:absolute;top:18px;right:22px;background:none;border:none;color:var(--text);font-size:24px;cursor:pointer}
-.overlay{display:none;position:fixed;inset:0;z-index:199;background:rgba(0,0,0,.4)}
-.overlay.show{display:block}
+section{padding:80px 28px;max-width:1200px;margin:0 auto}
+.section-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--t3);margin-bottom:8px}
+.section-title{font-size:24px;font-weight:500;margin-bottom:8px;letter-spacing:-.3px}
+.section-sub{font-size:14px;color:var(--t2);margin-bottom:40px;line-height:1.6;max-width:600px}
 
-/* Hero carousel */
-.hero{position:relative;width:100%;height:100vh;overflow:hidden;margin-top:0}
-.hero-slide{position:absolute;inset:0;opacity:0;transition:opacity 1s}
-.hero-slide.active{opacity:1}
-.hero-slide img{width:100%;height:100%;object-fit:cover}
-.hero-slide::after{content:'';position:absolute;inset:0;background:linear-gradient(transparent 60%,rgba(0,0,0,.7))}
-.hero-text{position:absolute;bottom:8%;left:50%;transform:translateX(-50%);text-align:center;z-index:2}
-.hero-text h1{font-size:clamp(22px,4vw,42px);font-weight:500;letter-spacing:-.3px;color:var(--text)}
-.hero-text p{font-size:14px;margin-top:4px;color:var(--text2)}
-.hero-dots{position:absolute;bottom:3%;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:2}
-.hero-dots span{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.3);cursor:pointer;transition:background .3s}
-.hero-dots span.active{background:var(--text)}
+/* Hero */
+.hero{position:relative;width:100%;height:100vh;min-height:600px;overflow:hidden}
+.hero-bg{position:absolute;inset:0}
+.hero-bg img{width:100%;height:100%;object-fit:cover}
+.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.45),rgba(0,0,0,.75))}
+.hero-content{position:absolute;bottom:20%;left:0;right:0;padding:0 28px;text-align:center;z-index:2}
+.hero-content h1{font-size:clamp(26px,5vw,48px);font-weight:500;letter-spacing:-.5px;margin-bottom:12px}
+.hero-content .subtitle{font-size:clamp(13px,2vw,17px);color:var(--t2);line-height:1.6;max-width:560px;margin:0 auto 24px}
+.hero-cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn{display:inline-block;padding:10px 24px;border-radius:2px;font-size:13px;letter-spacing:.5px;text-decoration:none;transition:all .25s;cursor:pointer}
+.btn-primary{background:var(--text);color:var(--bg);border:none}
+.btn-primary:hover{background:var(--t2)}
+.btn-outline{border:1px solid var(--t3);color:var(--text);background:transparent}
+.btn-outline:hover{border-color:var(--text)}
 
-/* Category cards section */
-.cats-section{padding:64px 28px;max-width:1200px;margin:0 auto}
-.cats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px}
-.cat-card{position:relative;aspect-ratio:16/10;overflow:hidden;cursor:pointer;border-radius:2px;background:#111}
-.cat-card img{width:100%;height:100%;object-fit:cover;transition:transform .5s,opacity .5s}
-.cat-card:hover img{transform:scale(1.04);opacity:.7}
-.cat-card .cat-info{position:absolute;bottom:0;left:0;right:0;padding:24px 20px;background:linear-gradient(transparent,rgba(0,0,0,.85))}
-.cat-card .cat-info .cat-name{font-size:20px;font-weight:500;letter-spacing:-.2px}
-.cat-card .cat-info .cat-count{font-size:12px;color:var(--text2);margin-top:3px}
+/* Services */
+.services{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.service-card{background:#111;border-radius:2px;overflow:hidden;transition:transform .3s}
+.service-card:hover{transform:translateY(-4px)}
+.service-card .svc-img{aspect-ratio:16/10;overflow:hidden;background:#1a1a1a}
+.service-card .svc-img img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
+.service-card:hover .svc-img img{transform:scale(1.04)}
+.service-card .svc-text{padding:20px}
+.service-card .svc-text h3{font-size:16px;font-weight:500;margin-bottom:6px}
+.service-card .svc-text p{font-size:13px;color:var(--t2);line-height:1.5}
 
-/* Subcategory grid */
-.sub-section{padding:48px 28px 64px;max-width:1200px;margin:0 auto}
-.sub-section h2{font-size:20px;font-weight:500;margin-bottom:6px;letter-spacing:-.2px}
-.sub-section .subtitle{font-size:13px;color:var(--text2);margin-bottom:28px}
-.sub-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
-.sub-card{cursor:pointer;position:relative;aspect-ratio:4/3;overflow:hidden;border-radius:2px;background:#111}
-.sub-card img{width:100%;height:100%;object-fit:cover;transition:transform .4s,opacity .4s}
-.sub-card:hover img{transform:scale(1.03);opacity:.75}
-.sub-card .sub-info{position:absolute;bottom:0;left:0;right:0;padding:14px;background:linear-gradient(transparent,rgba(0,0,0,.8))}
-.sub-card .sub-info .sub-name{font-size:14px;font-weight:500}
-.sub-card .sub-info .sub-count{font-size:11px;color:var(--text2);margin-top:2px}
+/* Tabs */
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px}
+.tab{padding:7px 16px;border-radius:2px;font-size:12px;letter-spacing:.5px;cursor:pointer;border:1px solid var(--t3);background:transparent;color:var(--t2);transition:all .2s}
+.tab:hover{border-color:var(--t2);color:var(--text)}
+.tab.active{background:var(--text);color:var(--bg);border-color:var(--text)}
 
-/* Gallery */
-.gallery-section{padding:32px 28px 80px;max-width:1400px;margin:0 auto}
-.gallery-section h2{font-size:20px;font-weight:500;margin-bottom:20px}
-.breadcrumb{font-size:12px;color:var(--text3);margin-bottom:16px}
-.breadcrumb span{cursor:pointer;color:var(--text2);transition:color .2s}
-.breadcrumb span:hover{color:var(--text)}
-.gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:6px}
-.gallery-card{cursor:pointer;aspect-ratio:4/3;overflow:hidden;background:#111}
-.gallery-card img{width:100%;height:100%;object-fit:cover;transition:transform .3s,opacity .3s}
-.gallery-card:hover img{transform:scale(1.03);opacity:.8}
+/* Featured grid */
+.featured-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:6px}
+.featured-card{aspect-ratio:4/3;overflow:hidden;cursor:pointer;background:#111;position:relative}
+.featured-card img{width:100%;height:100%;object-fit:cover;transition:transform .4s,opacity .4s}
+.featured-card:hover img{transform:scale(1.03);opacity:.8}
+
+/* Capability */
+.capability{font-size:14px;color:var(--t2);line-height:1.8;max-width:700px}
+.capability li{margin-bottom:6px;list-style:none;padding-left:16px;position:relative}
+.capability li::before{content:'—';position:absolute;left:0;color:var(--t3)}
+
+/* Video tabs */
 .video-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.video-card{cursor:pointer;position:relative;aspect-ratio:16/9;overflow:hidden;background:#111}
-.video-card video{width:100%;height:100%;object-fit:cover}
-.video-card:hover video{opacity:.8}
-.video-card .vplay{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:50px;height:50px;border-radius:50%;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;font-size:20px;pointer-events:none}
-.video-card .vlabel{margin-top:8px;font-size:13px}
+.video-card{cursor:pointer;position:relative}
+.video-card .vthumb{aspect-ratio:16/9;overflow:hidden;background:#111;position:relative}
+.video-card .vthumb video{width:100%;height:100%;object-fit:cover}
+.video-card .vthumb:hover video{opacity:.8}
+.video-card .vplay{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:48px;height:48px;border-radius:50%;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;font-size:18px;pointer-events:none}
+.video-card .vtitle{margin-top:8px;font-size:13px;color:var(--text)}
+
+/* Process */
+.process{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;counter-reset:step}
+.process-step{position:relative;padding:24px 20px 20px;border:1px solid var(--border);border-radius:2px}
+.process-step::before{counter-increment:step;content:'0' counter(step);position:absolute;top:-12px;left:16px;background:var(--bg);padding:0 8px;font-size:11px;color:var(--t3);letter-spacing:1px}
+.process-step h4{font-size:15px;font-weight:500;margin-bottom:6px}
+.process-step p{font-size:13px;color:var(--t2);line-height:1.5}
+
+/* Contact */
+.contact-box{background:#111;padding:32px;border-radius:2px;text-align:center;max-width:500px;margin:0 auto}
+.contact-box p{font-size:14px;color:var(--t2);margin-bottom:6px}
+.contact-box .info{font-size:16px;margin:12px 0;color:var(--text)}
 
 /* Lightbox */
 .lb{display:none;position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.97);justify-content:center;align-items:center;cursor:pointer}
 .lb.active{display:flex}
 .lb img,.lb video{max-width:92vw;max-height:92vh;object-fit:contain}
-.lb .lbclose{position:absolute;top:16px;right:24px;color:var(--text);font-size:30px;cursor:pointer;z-index:301}
+.lb .lbclose{position:absolute;top:16px;right:24px;color:var(--text);font-size:28px;cursor:pointer;z-index:301}
 
-/* Footer */
-footer{padding:40px 28px;border-top:1px solid rgba(255,255,255,.06);text-align:center;font-size:12px;color:var(--text3)}
-footer p{margin-bottom:3px}
+footer{padding:40px 28px;text-align:center;font-size:11px;color:var(--t3);border-top:1px solid var(--border)}
 
 @media(max-width:768px){
-  .topbar{padding:0 16px}
-  .hero{height:70vh;min-height:400px}
-  .cats-section{padding:40px 16px}
-  .cats-grid{grid-template-columns:1fr}
-  .sub-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
-  .gallery-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+  nav .links{display:none}
+  .hamburger{display:block}
+  section{padding:56px 16px}
+  .hero{height:80vh;min-height:500px}
+  .featured-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
   .video-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
 <body>
 
-<div class="topbar">
-  <button class="hamburger" onclick="openMenu()">☰</button>
+<nav>
+  <span class="brand">姚锋 · 产品摄影</span>
+  <div class="links">
+    <a href="#hero">首页</a><a href="#services">服务</a><a href="#featured">精选作品</a>
+    <a href="#videos">视频</a><a href="#aivisual">AI视觉</a><a href="#contact">联系</a>
+  </div>
+  <button class="hamburger" onclick="toggleMenu()">☰</button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <button class="close" onclick="toggleMenu()">×</button>
+  <a href="#hero" onclick="toggleMenu()">首页</a><a href="#services" onclick="toggleMenu()">服务</a>
+  <a href="#featured" onclick="toggleMenu()">精选作品</a><a href="#videos" onclick="toggleMenu()">视频</a>
+  <a href="#aivisual" onclick="toggleMenu()">AI视觉</a><a href="#contact" onclick="toggleMenu()">联系</a>
 </div>
 
-<div class="overlay" id="overlay" onclick="closeMenu()"></div>
-<div class="menu" id="menu">
-  <button class="close" onclick="closeMenu()">×</button>
-  <a href="#" onclick="goHome();closeMenu();return!1">全部作品</a>
-  <div>
-    <div class="menu-cat" onclick="this.classList.toggle('open')">白底图 ▸</div>
-    <div class="menu-sub" id="menu-baidi"></div>
+<!-- Hero -->
+<section class="hero" id="hero">
+  <div class="hero-bg"><img src="" id="heroImg" alt=""></div>
+  <div class="hero-content">
+    <h1>姚锋 · 商业产品摄影</h1>
+    <p class="subtitle">为家居、灯具、户外、建材与消费品品牌提供产品摄影、场景视觉和 AI 辅助内容方案。</p>
+    <div class="hero-cta">
+      <a href="#featured" class="btn btn-primary">查看代表作品</a>
+      <a href="#contact" class="btn btn-outline">联系合作</a>
+    </div>
   </div>
-  <div>
-    <div class="menu-cat" onclick="this.classList.toggle('open')">场景图 ▸</div>
-    <div class="menu-sub" id="menu-scene"></div>
-  </div>
-  <div>
-    <div class="menu-cat" onclick="this.classList.toggle('open')">视频 ▸</div>
-    <div class="menu-sub" id="menu-video"></div>
-  </div>
-  <a href="#footer" onclick="closeMenu()">关于</a>
-</div>
+</section>
 
-<main id="main"></main>
+<!-- Services -->
+<section id="services">
+  <div class="section-label">服务方向</div>
+  <div class="section-title">我能为你做什么</div>
+  <div class="section-sub">专注商业产品影像，覆盖拍摄、场景视觉与 AI 辅助方案。</div>
+  <div class="services" id="servicesGrid"></div>
+</section>
+
+<!-- Featured -->
+<section id="featured">
+  <div class="section-label">精选作品</div>
+  <div class="section-title">代表作品</div>
+  <div class="tabs" id="featuredTabs"></div>
+  <div class="featured-grid" id="featuredGrid"></div>
+</section>
+
+<!-- Capability -->
+<section>
+  <div class="section-label">项目能力</div>
+  <div class="section-title">我能稳定交付什么</div>
+  <ul class="capability">
+    <li>熟悉电商产品图拍摄规范，能批量稳定交付白底图与场景图</li>
+    <li>擅长家居、户外、灯具、建材、节日装饰类产品</li>
+    <li>能结合 AI 做脚本、分镜、产品文案、概念图和图生视频</li>
+    <li>可配合品牌、电商团队、设计团队完成内容资产生产</li>
+  </ul>
+</section>
+
+<!-- Videos -->
+<section id="videos">
+  <div class="section-label">视频作品</div>
+  <div class="section-title">产品视频</div>
+  <div class="tabs" id="videoTabs"></div>
+  <div id="videoGrid"></div>
+</section>
+
+<!-- AI Visual -->
+<section id="aivisual">
+  <div class="section-label">AI 产品视觉实验室</div>
+  <div class="section-title">AI 辅助视觉</div>
+  <div class="section-sub">基于文生图、图生图、图生视频能力，为产品前期视觉方向、脚本分镜、社交平台内容和概念图提供快速探索。</div>
+  <div class="featured-grid" id="aiGrid"></div>
+</section>
+
+<!-- Process -->
+<section>
+  <div class="section-label">合作流程</div>
+  <div class="section-title">如何合作</div>
+  <div class="process">
+    <div class="process-step"><h4>沟通需求</h4><p>确认产品类型、使用场景和交付用途</p></div>
+    <div class="process-step"><h4>确定方案</h4><p>确定拍摄方向、参考风格和交付清单</p></div>
+    <div class="process-step"><h4>拍摄制作</h4><p>进行拍摄、修图或 AI 辅助视觉制作</p></div>
+    <div class="process-step"><h4>精修交付</h4><p>输出成片，根据平台需求适配</p></div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section id="contact">
+  <div class="section-label">联系合作</div>
+  <div class="section-title">欢迎交流</div>
+  <div class="contact-box">
+    <p>如果你需要产品摄影、场景视觉、产品视频或 AI 辅助内容方案</p>
+    <div class="info">fengyao1021@gmail.com</div>
+    <div class="info">13528423803</div>
+    <p style="margin-top:12px;font-size:12px;color:var(--t3)">欢迎品牌方、电商团队、设计团队咨询</p>
+  </div>
+</section>
+
+<footer>© 2026 姚锋 · 商业产品摄影</footer>
 
 <div class="lb" id="lb" onclick="closeLB()"><span class="lbclose">×</span></div>
-
-<footer id="footer">
-  <p>姚锋 · 产品摄影</p>
-  <p>fengyao1021@gmail.com · 13528423803</p>
-</footer>
 
 <script src="data.js"></script>
 <script>
 const D=PORTFOLIO_DATA;
-let view='home',cat='',sub='',curSlide=0,carousel=[],timer;
+let featuredFilter='all',videoTab='实拍视频';
 
-// Build menu subcategories
+// Hero
+document.getElementById('heroImg').src=D.hero;
+
+// Services
 (function(){
-  for(const[cat,subs]of Object.entries(D.categories)){
-    const el=document.getElementById('menu-'+(cat==='白底图'?'baidi':cat==='场景图'?'scene':'video'));
-    if(!el)continue;
-    for(const s of Object.keys(subs))el.innerHTML+=`<a href="#" onclick="goSub('${cat}','${s}');closeMenu();return!1">${s}</a>`;
-  }
-  if(D.videos)for(const s of Object.keys(D.videos))document.getElementById('menu-video').innerHTML+=`<a href="#" onclick="goSub('视频','${s}');closeMenu();return!1">${s}</a>`;
+  const svcImgs=[
+    D.featured.find(x=>x.path.includes('水龙头'))||D.featured[0],
+    D.featured.find(x=>x.path.includes('休闲椅'))||D.featured[5],
+    D.videos.实拍视频[0],
+    D.ai_featured[0]
+  ];
+  const svcs=[
+    {title:'产品白底图',desc:'适用于电商主图、详情页、平台标准图。重点呈现产品结构、材质、比例与细节。',img:svcImgs[0]},
+    {title:'场景图 / 生活方式图',desc:'适用于品牌官网、广告图、详情页和社交平台。呈现产品在真实使用环境中的价值。',img:svcImgs[1]},
+    {title:'产品视频拍摄',desc:'适用于新品发布、功能展示、社交平台短视频素材。完成产品展示与氛围呈现。',img:{path:svcImgs[2]?.path,name:svcImgs[2]?.title}},
+    {title:'AI 产品视觉',desc:'适用于视觉方向探索、概念图、脚本分镜和图生视频。在正式拍摄前快速验证风格。',img:svcImgs[3]},
+  ];
+  document.getElementById('servicesGrid').innerHTML=svcs.map(s=>{
+    const src=s.img?.path||'';
+    const isVideo=src.includes('video');
+    return `<div class="service-card" onclick="location.href='#${s.title.includes('AI')?'aivisual':s.title.includes('视频')?'videos':'featured'}'"><div class="svc-img">${isVideo?`<video src="${src}" muted preload="metadata"></video>`:`<img src="${src}" loading="lazy">`}</div><div class="svc-text"><h3>${s.title}</h3><p>${s.desc}</p></div></div>`;
+  }).join('');
 })();
 
-function openMenu(){document.getElementById('menu').classList.add('open');document.getElementById('overlay').classList.add('show')}
-function closeMenu(){document.getElementById('menu').classList.remove('open');document.getElementById('overlay').classList.remove('show')}
-
-function goHome(){view='home';cat=sub='';render();scrollTo(0,0)}
-function goCat(c){view='cat';cat=c;sub='';render();scrollTo(0,0)}
-function goSub(c,s){view='sub';cat=c;sub=s;render();scrollTo(0,0)}
-
-// Carousel
-function initCarousel(){
-  const all=[];for(const[,subs]of Object.entries(D.categories))for(const[,fs]of Object.entries(subs))fs.forEach(f=>all.push(f));
-  carousel=all.sort(()=>Math.random()-.5).slice(0,8);curSlide=0;
+// Featured tabs + grid
+(function(){
+  const tabsEl=document.getElementById('featuredTabs');
+  const cats=['全部','白底图','场景图','灯具/家居建材','户外家具','节日装饰'];
+  tabsEl.innerHTML=cats.map((c,i)=>`<button class="tab${i?'':' active'}" data-cat="${c}" onclick="filterFeatured('${c}',this)">${c}</button>`).join('');
+  renderFeatured('全部');
+})();
+function filterFeatured(cat,btn){
+  document.querySelectorAll('#featuredTabs .tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  featuredFilter=cat;
+  renderFeatured(cat);
 }
-function renderCarousel(){
-  return `<section class="hero"><div id="hero-slides">${carousel.map((x,i)=>`<div class="hero-slide${i?'':' active'}"><img src="${x.path}" loading="${i<2?'eager':'lazy'}"></div>`).join('')}</div><div class="hero-text"><h1>姚锋</h1><p>产品摄影 · 白底静物 · 场景视觉 · 视频作品</p></div><div class="hero-dots">${carousel.map((_,i)=>`<span class="${i?'':' active'}" onclick="jumpSlide(${i})"></span>`).join('')}</div></section>`;
-}
-function startCarousel(){clearInterval(timer);timer=setInterval(()=>{curSlide=(curSlide+1)%carousel.length;updateSlides()},5000)}
-function jumpSlide(i){curSlide=i;updateSlides();clearInterval(timer);timer=setInterval(()=>{curSlide=(curSlide+1)%carousel.length;updateSlides()},5000)}
-function updateSlides(){const ss=document.querySelectorAll('.hero-slide'),ds=document.querySelectorAll('.hero-dots span');ss.forEach((s,i)=>s.classList.toggle('active',i===curSlide));ds.forEach((d,i)=>d.classList.toggle('active',i===curSlide))}
-
-function render(){
-  const m=document.getElementById('main');
-  
-  if(view==='home'){
-    initCarousel();
-    let html=renderCarousel();
-    html+=`<section class="cats-section"><div class="cats-grid">`;
-    const catDefs=[['白底图','产品静物 · 白底拍摄'],['场景图','环境场景 · 生活方式'],['视频','动态影像 · 视频作品']];
-    for(const[cn,desc]of catDefs){
-      const src=cn==='视频'?D.videos:D.categories[cn];if(!src)continue;
-      const all=Object.values(src).flat();
-      const img=all[Math.floor(Math.random()*all.length)];
-      const count=cn==='视频'?Object.values(D.videos).reduce((a,b)=>a+b.length,0)+' 个':Object.values(D.categories[cn]).reduce((a,b)=>a+b.length,0)+' 张';
-      html+=`<div class="cat-card" onclick="goCat('${cn}')"><img src="${img.path}" loading="lazy"><div class="cat-info"><div class="cat-name">${cn}</div><div class="cat-count">${count}</div></div></div>`;
-    }
-    html+=`</div></section>`;
-    m.innerHTML=html;
-    startCarousel();
-    return;
-  }
-  
-  if(view==='cat'){
-    const src=cat==='视频'?D.videos:D.categories[cat];if(!src){m.innerHTML='';return}
-    const entries=Object.entries(src);
-    let html=`<section class="sub-section"><h2>${cat}</h2><div class="subtitle">${entries.length} 个分类</div><div class="sub-grid">`;
-    for(const[sname,files]of entries){
-      const img=files[Math.floor(Math.random()*files.length)];
-      html+=`<div class="sub-card" onclick="goSub('${cat}','${sname}')"><img src="${img.path}" loading="lazy"><div class="sub-info"><div class="sub-name">${sname}</div><div class="sub-count">${files.length} 件</div></div></div>`;
-    }
-    html+=`</div></section>`;m.innerHTML=html;return;
-  }
-  
-  if(view==='sub'){
-    if(cat==='视频'){
-      const vids=(D.videos||{})[sub]||[];
-      m.innerHTML=`<section class="gallery-section"><div class="breadcrumb"><span onclick="goHome()">全部</span> / <span onclick="goCat('视频')">视频</span> / ${sub}</div><div class="video-grid">${vids.map(v=>`<div><div class="video-card" onclick="openVideo('${v.path}')"><video src="${v.path}" preload="metadata" muted playsinline></video><div class="vplay">▶</div></div><div class="vlabel">${v.name.slice(0,30)}</div></div>`).join('')}</div></section>`;return;
-    }
-    const imgs=((D.categories[cat]||{})[sub])||[];
-    m.innerHTML=`<section class="gallery-section"><div class="breadcrumb"><span onclick="goHome()">全部</span> / <span onclick="goCat('${cat}')">${cat}</span> / ${sub} · ${imgs.length} 张</div><div class="gallery-grid">${imgs.map(x=>`<div class="gallery-card" onclick="openLB('${x.path}')"><img src="${x.path}" loading="lazy"></div>`).join('')}</div></section>`;
-  }
+function renderFeatured(cat){
+  let imgs=[...D.featured];
+  if(cat==='白底图')imgs=imgs.filter(x=>x.path.includes('白底图'));
+  else if(cat==='场景图')imgs=imgs.filter(x=>x.path.includes('场景图')&&!x.path.includes('香薰精油'));
+  else if(cat==='灯具/家居建材')imgs=imgs.filter(x=>D.lighting_building.some(k=>x.path.includes(k)));
+  else if(cat==='户外家具')imgs=imgs.filter(x=>D.outdoor_furniture.some(k=>x.path.includes(k)));
+  else if(cat==='节日装饰')imgs=imgs.filter(x=>D.holiday.some(k=>x.path.includes(k)));
+  document.getElementById('featuredGrid').innerHTML=imgs.map(x=>`<div class="featured-card" onclick="openLB('${x.path}')"><img src="${x.path}" loading="lazy"></div>`).join('');
 }
 
+// Videos
+(function(){
+  const tabsEl=document.getElementById('videoTabs');
+  tabsEl.innerHTML='<button class="tab active" onclick="switchVideo(\'实拍视频\',this)">实拍视频</button><button class="tab" onclick="switchVideo(\'AI视频\',this)">AI 视频</button>';
+  renderVideos('实拍视频');
+})();
+function switchVideo(tab,btn){
+  document.querySelectorAll('#videoTabs .tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  videoTab=tab;
+  renderVideos(tab);
+}
+function renderVideos(tab){
+  const vids=D.videos[tab]||[];
+  document.getElementById('videoGrid').innerHTML=`<div class="video-grid">${vids.map(v=>`<div class="video-card" onclick="openVideo('${v.path}')"><div class="vthumb"><video src="${v.path}" preload="metadata" muted playsinline></video><div class="vplay">▶</div></div><div class="vtitle">${v.title||v.name||''}</div></div>`).join('')}</div>`;
+}
+
+// AI Grid
+(function(){
+  document.getElementById('aiGrid').innerHTML=D.ai_featured.map(x=>`<div class="featured-card" onclick="openLB('${x.path}')"><img src="${x.path}" loading="lazy"></div>`).join('');
+})();
+
+// Lightbox
 function openLB(p){const lb=document.getElementById('lb');lb.innerHTML='<span class="lbclose">×</span><img src="'+p+'">';lb.classList.add('active')}
 function openVideo(p){const lb=document.getElementById('lb');lb.innerHTML='<span class="lbclose">×</span><video src="'+p+'" controls autoplay></video>';lb.classList.add('active')}
 function closeLB(){document.getElementById('lb').classList.remove('active')}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLB()});
 
-goHome();
+function toggleMenu(){document.getElementById('mobileMenu').classList.toggle('open')}
 </script>
 </body>
 </html>
